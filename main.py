@@ -34,13 +34,15 @@ adjuntar = driver.find_element(
 )
 adjuntar.click()
 
-# fotos_y_videos = driver.find_element(By.XPATH,
-#                                      '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[1]')
-
 boton_imagen = driver.find_element(By.XPATH,
-                                   '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[1]/button')
+                                   '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[1]/button/input')
 
 boton_imagen.send_keys("/home/martindev/Descargas/programer.jpg")
 
+arrow_button = driver.find_element(
+    By.XPATH, '//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div')
+arrow_button.click()
+
+time.sleep(4)
 
 driver.quit()
