@@ -4,45 +4,39 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
 
+from const import *
+
+# alistamos el driver
 options = Options()
 options.add_argument("user-data-dir=selenium")
-options.binary_location = "/bin/google-chrome"
-driver = webdriver.Chrome(
-    options=options, executable_path=r'/home/martindev/Documentos/chromedriver_linux64/chromedriver')
+options.binary_location = path_chrome_bin
+driver = webdriver.Chrome(options=options, executable_path=path_chrome_driver)
 
-
-whatsapp_url = "https://web.whatsapp.com/"
+# abrimos whatsapp
 driver.get(whatsapp_url)
-driver.maximize_window()  # For maximizing window
-driver.implicitly_wait(20)
+driver.maximize_window()
+time.sleep(20)
 
-search_box = driver.find_element(
-    By.XPATH, '//*[@id="side"]/div[1]/div/div/div[2]/div/div[2]')
+# buscamos el contacto
+search_box = driver.find_element(By.XPATH, search_input)
 search_box.send_keys("73883448")
 search_box.send_keys(Keys.ENTER)
 
-path_message_box = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]'
-
-#
-message_box = driver.find_element(By.XPATH, path_message_box)
-
+# bucamos el input de mensaje y mandamos el mensaje
+message_box = driver.find_element(By.XPATH, message_input)
 message_box.send_keys(f"funciona!!!")
 message_box.send_keys(Keys.ENTER)
-
-adjuntar = driver.find_element(
-    By.XPATH, '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/div/span'
-)
+# buscamos el input de adjuntar
+adjuntar = driver.find_element(By.XPATH, attach_input)
 adjuntar.click()
 
-boton_imagen = driver.find_element(By.XPATH,
-                                   '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[1]/button/input')
+# buscamos el input de imagen
+boton_imagen = driver.find_element(By.XPATH, image_input)
+boton_imagen.send_keys(f"{path_images}/programer.jpg")
 
-boton_imagen.send_keys("/home/martindev/Descargas/programer.jpg")
-
-arrow_button = driver.find_element(
-    By.XPATH, '//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div')
+# buscamos el boton de enviar
+arrow_button = driver.find_element(By.XPATH, arrow_btn)
 arrow_button.click()
 
 time.sleep(4)
-
 driver.quit()
