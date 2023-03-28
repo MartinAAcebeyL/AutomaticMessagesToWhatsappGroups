@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
+SCOPES = ['https://www.googleapis.com/auth/drive']
 creds = None
 
 if os.path.exists('token.json'):
@@ -26,37 +26,47 @@ if not creds or not creds.valid:
     with open('token.json', 'w') as token:
         token.write(creds.to_json())
 
-# try:
-#     service = build('drive', 'v3', credentials=creds)
-#     ##### OPERACION DE LISTADO DE ARCHIVOS #############
-#     results = service.files().list(fields="nextPageToken, files(id,name)").execute()
-#     items = results.get('files', [])
-#     if not items:
-#         print("No hay items")
-#     for item in items:
-#         print(f"name {item['name']} , id {item['id']}")
-# except HttpError as error:
-#     print(f'Ocurrió un error {error}')
+
+try:
+    service = build('drive', 'v3', credentials=creds)
+    ##### OPERACION DE LISTADO DE ARCHIVOS #############
+    results = service.files().list(fields="nextPageToken, files(id,name)").execute()
+    items = results.get('files', [])
+    if not items:
+        print("No hay items")
+    
+    for item in items:
+        print(item)
+        # if pattern.match(item['name']):
+        #     try:
+        #         service.files().delete(fileId=item['id']).execute()
+        #         print(f"{item['name']} eliminado")
+        #     except HttpError as error:
+        #         print(f"No se pudo eliminar {item['name']}: {error}")
 
 
-# Autenticar aplicación para acceder a datos de Google Drive
-creds = Credentials.from_authorized_user_file(
-    'token.json', SCOPES)
+except HttpError as error:
+    print(f'Ocurrió un error {error}')
 
-# ID del archivo de texto a leer
-file_id = os.getenv('id_txt')
 
-# Crear objeto de servicio de Google Drive
-service = build('drive', 'v3', credentials=creds)
+# # Autenticar aplicación para acceder a datos de Google Drive
+# creds = Credentials.from_authorized_user_file(
+#     'token.json', SCOPES)
 
-# Obtener información del archivo de texto
-file = service.files().get(fileId=file_id).execute()
+# # # ID del archivo de texto a leer
+# file_id = os.getenv('id_txt')
 
-# Descargar contenido del archivo de texto
-content = service.files().get_media(fileId=file_id).execute()
+# # # Crear objeto de servicio de Google Drive
+# service = build('drive', 'v3', credentials=creds)
 
-# Convertir contenido a cadena de texto
-text = content.decode('utf-8')
+# # # Obtener información del archivo de texto
+# file = service.files().get(fileId=file_id).execute()
 
-# Imprimir texto
-print(text)
+# # # Descargar contenido del archivo de texto
+# content = service.files().get_media(fileId=file_id).execute()
+
+# # # Convertir contenido a cadena de texto
+# text = content.decode('utf-8')
+
+# # # Imprimir texto
+# print(text)
