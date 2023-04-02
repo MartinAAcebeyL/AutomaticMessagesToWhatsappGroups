@@ -6,7 +6,7 @@ import time
 import const
 
 
-def find_attach_input(function: function):
+def find_attach_input(function):
     def wrapper(self):
         # buscamos el input de adjuntar
         adjuntar = self.driver.find_element(By.XPATH, const.attach_input)
@@ -20,6 +20,7 @@ def find_attach_input(function: function):
 
 class Whatsapp:
     def __init__(self) -> None:
+        print("iniciando whatsapp")
         # alistamos el driver
         self.options = Options()
         self.options.add_argument("user-data-dir=selenium")
@@ -32,29 +33,36 @@ class Whatsapp:
         self.driver.maximize_window()
         time.sleep(20)
 
-    def search_contact(self, item: str) -> None:
+    def quit_driver(self) -> None:
+        print("cerrando whatsapp")
+        self.driver.quit()
+
+    def search_contact(self, contact: str) -> None:
+        print(f"buscando contacto: {contact}")
         # buscamos el contacto
         search_box = self.driver.find_element(By.XPATH, const.search_input)
-        search_box.send_keys(item)
+        search_box.send_keys(contact)
         search_box.send_keys(Keys.ENTER)
 
     def send_message(self, message: str) -> None:
+        print("enviando mensaje")
         # bucamos el input de mensaje y mandamos el mensaje
         message_box = self.driver.find_element(By.XPATH, const.message_input)
         message_box.send_keys(message)
         message_box.send_keys(Keys.ENTER)
+        time.sleep(2)
 
     @find_attach_input
-    def send_image(self, image:str) -> None:
+    def send_image(self, image: str) -> None:
+        print("enviando imagen")
         # buscamos el input de imagen
         boton_imagen = self.driver.find_element(By.XPATH, const.image_input)
         boton_imagen.send_keys(f"{const.path_images}/{image}")
 
     @find_attach_input
     def send_video(self, video: str) -> None:
-        #en contruccion
+        print("enviando video")
+        # en contruccion
         # buscamos el input de video
         boton_imagen = self.driver.find_element(By.XPATH, const.image_input)
         boton_imagen.send_keys(f"{const.path_images}/{video}")
-
-        
