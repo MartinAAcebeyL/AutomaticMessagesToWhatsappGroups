@@ -38,12 +38,19 @@ class Drive:
         for item in items:
             if '.' not in item['name']:
                 carpets.append(item)
-        return carpets
+        return sorted(carpets, key=lambda x: x['name'])
 
-    def get_items(self, id_carpet: str) -> list:
-        items = self.service.files().list(
-            fields="nextPageToken, files(id,name)", q=f"'{id_carpet}' in parents").execute().get('files', [])
-        return items
+    def get_items(self, id_carpet: str = None, folders: bool = False, t: str = None) -> list:
+        if id_carpet:
+            items = self.service.files().list(
+                fields="nextPageToken, files(id,name)", q=f"'{id_carpet}' in parents").execute().get('files', [])
+        else:
+            items = self.service.files().list(
+                fields="nextPageToken, files(id,name)").execute().get('files', [])
 
-    def show_txt(self):
-        pass
+        if folders:
+            items = [item for item in items if '.' not in item['name']]
+        elif t:
+            items = [item for item in items if f'.{t}' in item['name']]
+
+        return sorted(items, key=lambda x: x['name'])
