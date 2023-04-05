@@ -34,7 +34,7 @@ class Whatsapp:
         time.sleep(20)
 
     def quit_driver(self) -> None:
-        print("cerrando whatsapp")
+        input("Presione enter para cerrar Whatsapp: ")
         self.driver.quit()
 
     def search_contact(self, contact: str) -> None:

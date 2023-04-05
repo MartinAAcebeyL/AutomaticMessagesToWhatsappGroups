@@ -1,5 +1,5 @@
 from Whatsapp import Whatsapp
-from drive.drive import Drive
+from Drive import Drive
 
 whatsapp = Whatsapp()
 drive = Drive()

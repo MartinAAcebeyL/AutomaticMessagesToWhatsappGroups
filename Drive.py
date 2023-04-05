@@ -13,7 +13,7 @@ class Drive:
     def __init__(self) -> None:
         self.SCOPES = [os.getenv('DRIVE_SCOPE')]
         self.creds = None
-        token_path = 'drive/token.json'
+        token_path = 'token.json'
         if os.path.exists(token_path):
             self.creds = Credentials.from_authorized_user_file(
                 token_path, self.SCOPES)
