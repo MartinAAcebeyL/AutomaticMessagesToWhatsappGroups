@@ -24,10 +24,8 @@ class Whatsapp:
         # alistamos el driver
         self.options = Options()
         self.options.add_argument("user-data-dir=selenium")
-        self.options.binary_location = const.path_chrome_bin  # viene de const.py
         self.driver = webdriver.Chrome(
             options=self.options, executable_path=const.path_chrome_driver)
-
         # abrimos whatsapp
         self.driver.get(const.whatsapp_url)
         self.driver.maximize_window()
@@ -43,6 +41,7 @@ class Whatsapp:
         search_box = self.driver.find_element(By.XPATH, const.search_input)
         search_box.send_keys(contact)
         search_box.send_keys(Keys.ENTER)
+        time.sleep(2)
 
     def send_message(self, message: str) -> None:
         print("enviando mensaje")
