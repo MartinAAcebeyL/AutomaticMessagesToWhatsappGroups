@@ -1,9 +1,14 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+# from selenium.webdriver.chrome.options import Options
 import time
 import const
+from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.firefox.options import FirefoxProfile
+import pickle
+import os
 
 
 def find_attach_input(function):
@@ -22,10 +27,15 @@ class Whatsapp:
     def __init__(self) -> None:
         print("iniciando whatsapp")
         # alistamos el driver
+        """
+        #driver de chrome
         self.options = Options()
         self.options.add_argument("user-data-dir=selenium")
         self.driver = webdriver.Chrome(
-            options=self.options, executable_path=const.path_chrome_driver)
+        options=self.options, executable_path=const.path_chrome_driver)
+        """
+        self.profile = FirefoxProfile(const.path_firefox_perfil)
+        self.driver = webdriver.Firefox(firefox_profile=self.profile, )
         # abrimos whatsapp
         self.driver.get(const.whatsapp_url)
         self.driver.maximize_window()

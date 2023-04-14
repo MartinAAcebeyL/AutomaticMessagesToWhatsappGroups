@@ -1,11 +1,10 @@
 from Whatsapp import Whatsapp
 from Drive import Drive
 import os
-import time, random, io
+import time
+import random
+import io
 
-# whatsapp.search_contact("73883448")
-# whatsapp.send_message("hola bro")
-# whatsapp.quit_driver()
 # https://drive.google.com/drive/folders/1ZXRhEGp03TjW9JLs4hQkfFDHg56yqjk6?usp=share_link
 
 
@@ -18,21 +17,17 @@ def default():
     drive = Drive()
     items = drive.get_items(id_carpet=os.getenv('ID_CARPET'), folders=True)
 
-    for folder in items[:1]:        
+    for folder in items[:1]:
         print(folder)
         items_carpets = drive.get_items(id_carpet=folder.get('id'))
-        #choose a txt 
+        # choose a txt
         txts = [i for i in items_carpets if '.' in i.get('name')]
         txt = random.choice(txts)
         txt_content = drive.service.files().get_media(
-            fileId=txt.get('id')).execute().decode('utf-8')
-        
-
-
-        # print(txt_content)
+            fileId=txt.get('id')).execute()
         whatsapp = Whatsapp()
         whatsapp.search_contact('738834')
-        whatsapp.send_message('📢 ¡Atención! Llegó el Smartwatch DW35 PRO año 2023⌚️'.decode('utf-8'))
+        whatsapp.send_message("😀")
         whatsapp.quit_driver()
 
 
@@ -48,15 +43,20 @@ def exit_():
 
 
 if __name__ == "__main__":
-    opcion = int(input("""
-    1. Correr el script por defecto
-    2. Seleccion una nueva carpeta
-    3. Salir\n"""))
+    whatsapp = Whatsapp()
+    # whatsapp.search_contact('738834')
+    # whatsapp.send_message("😀")
+    whatsapp.quit_driver()
 
-    acciones = {
-        1: default,
-        2: choose_carpet,
-        3: exit_
-    }
+    # opcion = int(input("""
+    # 1. Correr el script por defecto
+    # 2. Seleccion una nueva carpeta
+    # 3. Salir\n"""))
 
-    acciones[opcion]()
+    # acciones = {
+    #     1: default,
+    #     2: choose_carpet,
+    #     3: exit_
+    # }
+
+    # acciones[opcion]()
