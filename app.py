@@ -43,20 +43,15 @@ def exit_():
 
 
 if __name__ == "__main__":
-    whatsapp = Whatsapp()
-    # whatsapp.search_contact('738834')
-    # whatsapp.send_message("😀")
-    whatsapp.quit_driver()
+    opcion = int(input("""
+    1. Correr el script por defecto
+    2. Seleccion una nueva carpeta
+    3. Salir\n"""))
 
-    # opcion = int(input("""
-    # 1. Correr el script por defecto
-    # 2. Seleccion una nueva carpeta
-    # 3. Salir\n"""))
+    acciones = {
+        1: default,
+        2: choose_carpet,
+        3: exit_
+    }
 
-    # acciones = {
-    #     1: default,
-    #     2: choose_carpet,
-    #     3: exit_
-    # }
-
-    # acciones[opcion]()
+    acciones[opcion]()

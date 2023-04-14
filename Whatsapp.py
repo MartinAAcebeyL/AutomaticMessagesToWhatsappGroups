@@ -1,14 +1,11 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
-# from selenium.webdriver.chrome.options import Options
 import time
 import const
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.firefox.options import FirefoxProfile
-import pickle
-import os
+from selenium.webdriver.common.action_chains import ActionChains
 
 
 def find_attach_input(function):
@@ -39,7 +36,7 @@ class Whatsapp:
         # abrimos whatsapp
         self.driver.get(const.whatsapp_url)
         self.driver.maximize_window()
-        time.sleep(20)
+        time.sleep(10)
 
     def quit_driver(self) -> None:
         input("Presione enter para cerrar Whatsapp: ")
@@ -49,7 +46,14 @@ class Whatsapp:
         print(f"buscando contacto: {contact}")
         # buscamos el contacto
         search_box = self.driver.find_element(By.XPATH, const.search_input)
-        search_box.send_keys(contact)
+        search_box.click()
+
+        actions = ActionChains(self.driver)
+        for char in contact:
+            actions.send_keys(char)
+        actions.perform()
+
+        # search_box.send_keys("738834")
         search_box.send_keys(Keys.ENTER)
         time.sleep(2)
 
@@ -57,7 +61,11 @@ class Whatsapp:
         print("enviando mensaje")
         # bucamos el input de mensaje y mandamos el mensaje
         message_box = self.driver.find_element(By.XPATH, const.message_input)
-        message_box.send_keys(message)
+        # message_box.send_keys(message)
+        actions = ActionChains(self.driver)
+        for char in message:
+            actions.send_keys(char)
+        actions.perform()
         message_box.send_keys(Keys.ENTER)
         time.sleep(2)
 
