@@ -36,7 +36,7 @@ class Whatsapp:
         # abrimos whatsapp
         self.driver.get(const.whatsapp_url)
         self.driver.maximize_window()
-        time.sleep(10)
+        time.sleep(20)
 
     def quit_driver(self) -> None:
         input("Presione enter para cerrar Whatsapp: ")
