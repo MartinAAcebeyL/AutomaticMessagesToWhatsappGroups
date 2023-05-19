@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 import time
-import const
+import utils.const as const
 from selenium import webdriver
 from selenium.webdriver.firefox.options import FirefoxProfile
 from selenium.webdriver.common.action_chains import ActionChains

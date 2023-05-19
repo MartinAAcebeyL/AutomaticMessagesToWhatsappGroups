@@ -1,5 +1,5 @@
-from Whatsapp import Whatsapp
-from Drive import Drive
+from .controllers.Whatsapp import Whatsapp
+from .controllers.Drive import Drive
 import os
 import time
 import random
