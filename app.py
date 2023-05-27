@@ -32,20 +32,27 @@ def default():
 
 def choose_carpet():
     drive = Drive()
-    items = drive.get_items(id_carpet=os.getenv('ID_CARPET'), folders=True)
     whatsapp = Whatsapp()
-    print("Selecciona una carpeta")
-    show_list(items)
-    folder = input()
-    folder = items[int(folder)-1]
-    items_carpets = drive.get_items(id_carpet=folder.get('id'))
-    txts = [i for i in items_carpets if '.' in i.get('name')]
-    txt = random.choice(txts)
-    txt_content = drive.service.files().get_media(
-        fileId=txt.get('id')).execute().decode('utf-8')
+    items = drive.get_items(id_carpet=os.getenv('ID_CARPET'), folders=True)
 
-    whatsapp.search_contact('68638319')
-    whatsapp.send_message(txt_content)
+    while True:
+        print("Selecciona una carpeta")
+        show_list(items)
+        folder = input()
+        folder = items[int(folder)-1]
+        items_carpets = drive.get_items(id_carpet=folder.get('id'))
+        txts = [i for i in items_carpets if '.' in i.get('name')]
+        txt = random.choice(txts)
+        txt_content = drive.service.files().get_media(
+            fileId=txt.get('id')).execute().decode('utf-8')
+
+        whatsapp.search_contact('68638319')
+        whatsapp.send_message(txt_content)
+        aux = input("Desea enviar otro mensaje? (y/n)\n")
+        if aux == 'n':
+            break
+
+    print("Saliendo...")
     whatsapp.quit_driver()
 
 
@@ -56,13 +63,17 @@ def exit_():
 
 
 if __name__ == "__main__":
-    opcion = int(input(
-        "1. Correr el script por defecto\n2. Seleccion una nueva carpeta\n3. Salir\n\n"))
+    while True:
+        opcion = int(input(
+            "1. Correr el script por defecto\n2. Seleccion una nueva carpeta\n3. Salir\n\n"))
 
-    acciones = {
-        1: default,
-        2: choose_carpet,
-        3: exit_
-    }
+        acciones = {
+            1: default,
+            2: choose_carpet,
+            3: exit_
+        }
 
-    acciones[opcion]()
+        acciones[opcion]()
+        
+        if opcion == 3:
+            break
