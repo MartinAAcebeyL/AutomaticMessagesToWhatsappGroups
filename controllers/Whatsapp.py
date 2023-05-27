@@ -22,10 +22,10 @@ def find_attach_input(function):
 
 class Whatsapp:
     def __init__(self) -> None:
-        print("iniciando whatsapp")
+        print("INICIANDO WHATSAPP")
         # alistamos el driver
         """
-        #driver de chrome
+        #PARA CHROME
         self.options = Options()
         self.options.add_argument("user-data-dir=selenium")
         self.driver = webdriver.Chrome(
@@ -39,11 +39,11 @@ class Whatsapp:
         time.sleep(20)
 
     def quit_driver(self) -> None:
-        input("Presione enter para cerrar Whatsapp: ")
+        input("PRESIONE ENTER PARA CERRAR WHATSAPP: ")
         self.driver.quit()
 
     def search_contact(self, contact: str) -> None:
-        print(f"buscando contacto: {contact}")
+        print(f"BUSCANDO CONTACTO: {contact}")
         # buscamos el contacto
         search_box = self.driver.find_element(By.XPATH, const.search_input)
         search_box.click()
@@ -58,7 +58,7 @@ class Whatsapp:
         time.sleep(2)
 
     def send_message(self, message: str) -> None:
-        print("enviando mensaje")
+        print("ENVIANDO MENSAJE...")
         # bucamos el input de mensaje y mandamos el mensaje
         message_box = self.driver.find_element(By.XPATH, const.message_input)
         # message_box.send_keys(message)
@@ -71,14 +71,14 @@ class Whatsapp:
 
     @find_attach_input
     def send_image(self, image: str) -> None:
-        print("enviando imagen")
+        print("ENVIANDO IMAGEN")
         # buscamos el input de imagen
         boton_imagen = self.driver.find_element(By.XPATH, const.image_input)
         boton_imagen.send_keys(f"{const.path_images}/{image}")
 
     @find_attach_input
     def send_video(self, video: str) -> None:
-        print("enviando video")
+        print("ENVIANDO VIDEO")
         # en contruccion
         # buscamos el input de video
         boton_imagen = self.driver.find_element(By.XPATH, const.image_input)
