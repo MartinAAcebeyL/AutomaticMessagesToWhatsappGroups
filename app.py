@@ -10,6 +10,19 @@ def show_list(l: list) -> None:
     print()
 
 
+def get_multimedia_carpet(multimedia: dict) -> dict:
+    pesos = [80, 20]
+    print("SELECCIONANDO MULTIMEDIA")
+    carpet = random.choices(list(multimedia.keys()), weights=pesos)[0]
+    return multimedia.get(carpet)
+
+
+def get_multimedia(multimedia: dict):
+    multimedia_items = drive.get_items(id_carpet=multimedia.get('id'))
+    multimedia_items = random.sample(multimedia_items, 3)
+    return multimedia_items
+
+
 def default():
     items = drive.get_items(id_carpet=os.getenv('ID_CARPET'), folders=True)
 
@@ -24,7 +37,7 @@ def default():
         whatsapp.search_contact('68638319')
         whatsapp.send_message(txt_content)
 
-
+# https://drive.google.com/file/d/1WKqpnOI1kXnfiPGzpsrOiYM7-JXISvaD/view?usp=sharing
 def choose_carpet():
     items = drive.get_items(id_carpet=os.getenv('ID_CARPET'), folders=True)
     print("Selecciona una carpeta")
@@ -32,7 +45,17 @@ def choose_carpet():
     folder = input()
     folder = items[int(folder)-1]
     items_carpets = drive.get_items(id_carpet=folder.get('id'))
-    txts = [i for i in items_carpets if '.' in i.get('name')]
+    multimedia, txts = {}, []
+
+    for item in items_carpets:
+        if '.' in item.get('name'):
+            txts.append(item)
+        else:
+            multimedia[item.get('name')] = item
+
+    multimedia_carpet = get_multimedia_carpet(multimedia)
+    multimedia_items = get_multimedia(multimedia_carpet)
+    
     txt = random.choice(txts)
     txt_content = drive.service.files().get_media(
         fileId=txt.get('id')).execute().decode('utf-8')

@@ -2,21 +2,20 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 
-path_chrome_bin = "/bin/google-chrome"
+PATH_CHROME_BIN = "/bin/google-chrome"
 
-path_chrome_driver = os.getenv('PATH_CHOROME_DRIVER')
-path_firefox_driver = os.getenv('PATH_FIREFOX_DRIVER')
-path_firefox_perfil = os.getenv('PATH_FIREFOX_PERFIL')
+PATH_CHROME_DRIVER = os.getenv('PATH_CHOROME_DRIVER')
+PATH_FIREFOX_DRIVER = os.getenv('PATH_FIREFOX_DRIVER')
+PATH_FIREFOX_PERFIL = os.getenv('PATH_FIREFOX_PERFIL')
 
-whatsapp_url = "https://web.whatsapp.com/"
+WHATSAPP_URL = "https://web.whatsapp.com/"
 
-search_input = '/html/body/div[1]/div/div/div[4]/div/div[1]/div/div/div[2]/div/div[1]'
-# //*[@id="main"]/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]
-message_input = '/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]'
+SEARCH_INPUT = '/html/body/div[1]/div/div/div[4]/div/div[1]/div/div/div[2]/div/div[1]'
+MESSAGE_INPUT = '/html/body/div[1]/div/div/div[5]/div/footer/div[1]/div/span[2]/div/div[2]/div[1]/div/div[1]'
 
-attach_input = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/div/span'
-image_input = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[1]/button/input'
+ATTACH_INPUT = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/div/span'
+IMAGE_INPUT = '//*[@id="main"]/footer/div[1]/div/span[2]/div/div[1]/div[2]/div/span/div/div/ul/li[1]/button/input'
 
-path_images = '/home/martindev/Descargas'
+PATH_IMAGES = '/home/martindev/Descargas'
 
-arrow_btn = '//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div/span'
+ARROW_BTN = '//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div/span'
