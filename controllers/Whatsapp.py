@@ -9,11 +9,11 @@ from selenium.webdriver.common.action_chains import ActionChains
 
 
 def find_attach_input(function):
-    def wrapper(self):
+    def wrapper(self, *args, **kwargs):
         # buscamos el input de adjuntar
         adjuntar = self.driver.find_element(By.XPATH, const.ATTACH_INPUT)
         adjuntar.click()
-        function(self)
+        function(self, args[0])
         # buscamos el boton de enviar
         arrow_button = self.driver.find_element(By.XPATH, const.ARROW_BTN)
         arrow_button.click()
@@ -36,7 +36,7 @@ class Whatsapp:
         # abrimos whatsapp
         self.driver.get(const.WHATSAPP_URL)
         self.driver.maximize_window()
-        time.sleep(20)
+        time.sleep(10)
 
     def quit_driver(self) -> None:
         input("PRESIONE ENTER PARA CERRAR WHATSAPP: ")
@@ -71,10 +71,11 @@ class Whatsapp:
 
     @find_attach_input
     def send_image(self, image: str) -> None:
-        print("ENVIANDO IMAGEN")
+        print("ENVIANDO IMAGEN...")
         # buscamos el input de imagen
         boton_imagen = self.driver.find_element(By.XPATH, const.IMAGE_INPUT)
-        boton_imagen.send_keys(f"{const.PATH_IMAGES}/{image}")
+        # boton_imagen.send_keys(f"{const.PATH_IMAGES}/{image}")
+        boton_imagen.send_keys(image)
 
     @find_attach_input
     def send_video(self, video: str) -> None:

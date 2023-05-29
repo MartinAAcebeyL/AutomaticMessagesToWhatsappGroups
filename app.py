@@ -1,7 +1,8 @@
-from controllers.Whatsapp import Whatsapp
-from controllers.Drive import Drive
 import os
 import random
+from controllers.Whatsapp import Whatsapp
+from controllers.Drive import Drive
+from utils.const import DRIVE_URL_MULTIMEDIA
 
 
 def show_list(l: list) -> None:
@@ -37,7 +38,7 @@ def default():
         whatsapp.search_contact('68638319')
         whatsapp.send_message(txt_content)
 
-# https://drive.google.com/file/d/1WKqpnOI1kXnfiPGzpsrOiYM7-JXISvaD/view?usp=sharing
+
 def choose_carpet():
     items = drive.get_items(id_carpet=os.getenv('ID_CARPET'), folders=True)
     print("Selecciona una carpeta")
@@ -55,12 +56,14 @@ def choose_carpet():
 
     multimedia_carpet = get_multimedia_carpet(multimedia)
     multimedia_items = get_multimedia(multimedia_carpet)
-    
+    multimedia_url = DRIVE_URL_MULTIMEDIA.format(multimedia_items[0].get('id'))
+
     txt = random.choice(txts)
     txt_content = drive.service.files().get_media(
         fileId=txt.get('id')).execute().decode('utf-8')
     whatsapp.search_contact('68638319')
     whatsapp.send_message(txt_content)
+    whatsapp.send_image(multimedia_url)
 
 
 whatsapp = Whatsapp()
