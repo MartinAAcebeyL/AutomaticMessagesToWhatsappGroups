@@ -20,5 +20,5 @@ PATH_IMAGES = '/home/martindev/Descargas'
 
 ARROW_BTN = '//*[@id="app"]/div/div/div[2]/div[2]/span/div/span/div/div/div[2]/div/div[2]/div[2]/div/div/span'
 
-DRIVE_URL_MULTIMEDIA = "https://drive.google.com/file/d/{}/view?usp=sharing"
-# DRIVE_URL_MULTIMEDIA = "https://drive.google.com/uc?export=download&id={}"
+# DRIVE_URL_MULTIMEDIA = "https://drive.google.com/file/d/{}/view?usp=sharing"
+DRIVE_URL_MULTIMEDIA = "https://drive.google.com/uc?export=download&id={}"

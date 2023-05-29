@@ -6,8 +6,11 @@ import utils.const as const
 from selenium import webdriver
 from selenium.webdriver.firefox.options import FirefoxProfile
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-
+    
 def find_attach_input(function):
     def wrapper(self, *args, **kwargs):
         # buscamos el input de adjuntar
@@ -31,8 +34,18 @@ class Whatsapp:
         self.driver = webdriver.Chrome(
         options=self.options, executable_path=const.PATH_CHROME_DRIVER)
         """
+        options = Options()
+        options.set_preference("browser.download.folderList", 2)
+        options.set_preference(
+            "browser.download.manager.showWhenStarting", False)
+        options.set_preference("browser.download.dir",
+                               "../tempo/")
+        options.set_preference(
+            "browser.helperApps.neverAsk.saveToDisk", "application/octet-stream")
+
         self.profile = FirefoxProfile(const.PATH_FIREFOX_PERFIL)
-        self.driver = webdriver.Firefox(firefox_profile=self.profile, )
+        self.driver = webdriver.Firefox(
+            firefox_profile=self.profile, options=options)
         # abrimos whatsapp
         self.driver.get(const.WHATSAPP_URL)
         self.driver.maximize_window()
@@ -69,13 +82,19 @@ class Whatsapp:
         message_box.send_keys(Keys.ENTER)
         time.sleep(2)
 
-    @find_attach_input
+    # @find_attach_input
     def send_image(self, image: str) -> None:
         print("ENVIANDO IMAGEN...")
+        print(image)
+        self.driver.get(image)
+        # Ajusta el tiempo máximo de espera según sea necesario
+        espera = WebDriverWait(self.driver, 60)
+        espera.until(EC.url_contains("accounts.google.com"))
+
         # buscamos el input de imagen
-        boton_imagen = self.driver.find_element(By.XPATH, const.IMAGE_INPUT)
+        # boton_imagen = self.driver.find_element(By.XPATH, const.IMAGE_INPUT)
         # boton_imagen.send_keys(f"{const.PATH_IMAGES}/{image}")
-        boton_imagen.send_keys(image)
+        # boton_imagen.send_keys(image)
 
     @find_attach_input
     def send_video(self, video: str) -> None:
