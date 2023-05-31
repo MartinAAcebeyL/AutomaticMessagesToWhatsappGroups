@@ -57,8 +57,9 @@ class Drive:
 
     def download_file(self, file_id: str, file_name: str) -> None:
         request = self.service.files().get_media(fileId=file_id)
-        fh = open(file_name, 'wb')
+        fh = open(f"temp/{file_name}", 'wb')
         downloader = MediaIoBaseDownload(fh, request)
         done = False
         while done is False:
             status, done = downloader.next_chunk()
+        print(f"Download {file_name} Complete")

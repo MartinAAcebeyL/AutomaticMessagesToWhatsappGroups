@@ -56,14 +56,15 @@ def choose_carpet():
 
     multimedia_carpet = get_multimedia_carpet(multimedia)
     multimedia_items = get_multimedia(multimedia_carpet)
-    multimedia_url = DRIVE_URL_MULTIMEDIA.format(multimedia_items[0].get('id'))
+    # multimedia_url = DRIVE_URL_MULTIMEDIA.format(multimedia_items[0].get('id'))
+    drive.download_file(multimedia_items[0].get('id'), multimedia_items[0].get('name'))
 
     txt = random.choice(txts)
     txt_content = drive.service.files().get_media(
         fileId=txt.get('id')).execute().decode('utf-8')
     whatsapp.search_contact('68638319')
     whatsapp.send_message(txt_content)
-    whatsapp.send_image(multimedia_url)
+    # whatsapp.send_image(multimedia_url)
 
 
 whatsapp = Whatsapp()
