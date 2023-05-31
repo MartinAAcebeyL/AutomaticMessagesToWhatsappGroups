@@ -4,6 +4,7 @@ from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from dotenv import load_dotenv
+from googleapiclient.http import MediaIoBaseDownload
 
 load_dotenv()
 
@@ -53,5 +54,12 @@ class Drive:
             items = [item for item in items if f'.{t}' in item['name']]
 
         return sorted(items, key=lambda x: x['name'])
-    
-    
+
+    def download_file(self, file_id: str, file_name: str) -> None:
+        request = self.service.files().get_media(fileId=file_id)
+        fh = open(f"temp/{file_name}", 'wb')
+        downloader = MediaIoBaseDownload(fh, request)
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
+        print(f"Download {file_name} Complete")

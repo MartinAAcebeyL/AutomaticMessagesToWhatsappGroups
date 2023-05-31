@@ -2,15 +2,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 import time
+import os
 import utils.const as const
 from selenium import webdriver
-from selenium.webdriver.firefox.options import FirefoxProfile
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
-    
+
+
 def find_attach_input(function):
     def wrapper(self, *args, **kwargs):
         # buscamos el input de adjuntar
@@ -27,25 +25,13 @@ class Whatsapp:
     def __init__(self) -> None:
         print("INICIANDO WHATSAPP")
         # alistamos el driver
-        """
-        #PARA CHROME
+
+        # PARA CHROME
         self.options = Options()
         self.options.add_argument("user-data-dir=selenium")
         self.driver = webdriver.Chrome(
-        options=self.options, executable_path=const.PATH_CHROME_DRIVER)
-        """
-        options = Options()
-        options.set_preference("browser.download.folderList", 2)
-        options.set_preference(
-            "browser.download.manager.showWhenStarting", False)
-        options.set_preference("browser.download.dir",
-                               "../tempo/")
-        options.set_preference(
-            "browser.helperApps.neverAsk.saveToDisk", "application/octet-stream")
+            executable_path=const.PATH_CHROME_DRIVER, options=self.options)
 
-        self.profile = FirefoxProfile(const.PATH_FIREFOX_PERFIL)
-        self.driver = webdriver.Firefox(
-            firefox_profile=self.profile, options=options)
         # abrimos whatsapp
         self.driver.get(const.WHATSAPP_URL)
         self.driver.maximize_window()
@@ -60,13 +46,7 @@ class Whatsapp:
         # buscamos el contacto
         search_box = self.driver.find_element(By.XPATH, const.SEARCH_INPUT)
         search_box.click()
-
-        actions = ActionChains(self.driver)
-        for char in contact:
-            actions.send_keys(char)
-        actions.perform()
-
-        # search_box.send_keys("738834")
+        search_box.send_keys(contact)
         search_box.send_keys(Keys.ENTER)
         time.sleep(2)
 
@@ -74,27 +54,21 @@ class Whatsapp:
         print("ENVIANDO MENSAJE...")
         # bucamos el input de mensaje y mandamos el mensaje
         message_box = self.driver.find_element(By.XPATH, const.MESSAGE_INPUT)
-        # message_box.send_keys(message)
-        actions = ActionChains(self.driver)
-        for char in message:
-            actions.send_keys(char)
-        actions.perform()
+        message_box.send_keys(message)
         message_box.send_keys(Keys.ENTER)
         time.sleep(2)
 
-    # @find_attach_input
+    @find_attach_input
     def send_image(self, image: str) -> None:
         print("ENVIANDO IMAGEN...")
-        print(image)
-        self.driver.get(image)
-        # Ajusta el tiempo máximo de espera según sea necesario
-        espera = WebDriverWait(self.driver, 60)
-        espera.until(EC.url_contains("accounts.google.com"))
 
         # buscamos el input de imagen
-        # boton_imagen = self.driver.find_element(By.XPATH, const.IMAGE_INPUT)
-        # boton_imagen.send_keys(f"{const.PATH_IMAGES}/{image}")
-        # boton_imagen.send_keys(image)
+        ruta_imagen = os.path.abspath("temp/"+image)
+        print(ruta_imagen)
+
+        boton_imagen = self.driver.find_element(By.XPATH, const.IMAGE_INPUT)
+        boton_imagen.send_keys(ruta_imagen)
+        time.sleep(2)
 
     @find_attach_input
     def send_video(self, video: str) -> None:
