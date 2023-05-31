@@ -6,11 +6,15 @@ import utils.const as const
 from selenium import webdriver
 from selenium.webdriver.firefox.options import FirefoxProfile
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.firefox.options import Options
+# from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-    
+
+from selenium.webdriver.chrome.service import Service
+
+
 def find_attach_input(function):
     def wrapper(self, *args, **kwargs):
         # buscamos el input de adjuntar
@@ -27,25 +31,14 @@ class Whatsapp:
     def __init__(self) -> None:
         print("INICIANDO WHATSAPP")
         # alistamos el driver
-        """
-        #PARA CHROME
-        self.options = Options()
+
+        # PARA CHROME
+        self.options = Options()    
         self.options.add_argument("user-data-dir=selenium")
         self.driver = webdriver.Chrome(
-        options=self.options, executable_path=const.PATH_CHROME_DRIVER)
-        """
-        options = Options()
-        options.set_preference("browser.download.folderList", 2)
-        options.set_preference(
-            "browser.download.manager.showWhenStarting", False)
-        options.set_preference("browser.download.dir",
-                               "../tempo/")
-        options.set_preference(
-            "browser.helperApps.neverAsk.saveToDisk", "application/octet-stream")
+            executable_path=const.PATH_CHROME_DRIVER, options=self.options)
 
-        self.profile = FirefoxProfile(const.PATH_FIREFOX_PERFIL)
-        self.driver = webdriver.Firefox(
-            firefox_profile=self.profile, options=options)
+        # PARA FIREFOX
         # abrimos whatsapp
         self.driver.get(const.WHATSAPP_URL)
         self.driver.maximize_window()
