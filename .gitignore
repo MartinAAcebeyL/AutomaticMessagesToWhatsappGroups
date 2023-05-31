@@ -20,3 +20,4 @@ env/
 selenium/
 *.json
 contacts.txt
+temp/*
