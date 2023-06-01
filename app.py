@@ -52,11 +52,10 @@ def choose_carpet():
             txts.append(item)
         else:
             multimedia[item.get('name')] = item
-
     multimedia_carpet = get_multimedia_carpet(multimedia)
     multimedia_items = get_multimedia(multimedia_carpet)
-    drive.download_file(multimedia_items[0].get('id'), multimedia_items[0].get('name'))
-
+    drive.download_file(multimedia_items[0].get(
+        'id'), multimedia_items[0].get('name'))
     txt = random.choice(txts)
     txt_content = drive.service.files().get_media(
         fileId=txt.get('id')).execute().decode('utf-8')

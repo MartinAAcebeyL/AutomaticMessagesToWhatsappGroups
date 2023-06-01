@@ -54,9 +54,16 @@ class Whatsapp:
         print("ENVIANDO MENSAJE...")
         # bucamos el input de mensaje y mandamos el mensaje
         message_box = self.driver.find_element(By.XPATH, const.MESSAGE_INPUT)
-        message_box.send_keys(message)
+        print(message.split("\n"))
+        for i in message.split("\n"):
+            if i == '':
+                message_box.send_keys(Keys.SHIFT, Keys.ENTER)
+            message_box.send_keys(i)
+            message_box.send_keys(Keys.SHIFT, Keys.ENTER)
+            time.sleep(0.5)
+
         message_box.send_keys(Keys.ENTER)
-        time.sleep(2)
+        time.sleep(1)
 
     @find_attach_input
     def send_image(self, image: str) -> None:
