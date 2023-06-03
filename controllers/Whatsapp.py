@@ -8,7 +8,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 
-
 def find_attach_input(function):
     def wrapper(self, *args, **kwargs):
         # buscamos el input de adjuntar
@@ -54,10 +53,9 @@ class Whatsapp:
         print("ENVIANDO MENSAJE...")
         # bucamos el input de mensaje y mandamos el mensaje
         message_box = self.driver.find_element(By.XPATH, const.MESSAGE_INPUT)
-        print(message.split("\n"))
         for i in message.split("\n"):
-            if i == '':
-                message_box.send_keys(Keys.SHIFT, Keys.ENTER)
+            # if i == '':
+            #     message_box.send_keys(Keys.SHIFT, Keys.ENTER)
             message_box.send_keys(i)
             message_box.send_keys(Keys.SHIFT, Keys.ENTER)
             time.sleep(0.5)
@@ -68,19 +66,8 @@ class Whatsapp:
     @find_attach_input
     def send_image(self, image: str) -> None:
         print("ENVIANDO IMAGEN...")
-
         # buscamos el input de imagen
         ruta_imagen = os.path.abspath("temp/"+image)
-        print(ruta_imagen)
-
         boton_imagen = self.driver.find_element(By.XPATH, const.IMAGE_INPUT)
         boton_imagen.send_keys(ruta_imagen)
-        time.sleep(2)
-
-    @find_attach_input
-    def send_video(self, video: str) -> None:
-        print("ENVIANDO VIDEO")
-        # en contruccion
-        # buscamos el input de video
-        boton_imagen = self.driver.find_element(By.XPATH, const.IMAGE_INPUT)
-        boton_imagen.send_keys(f"{const.PATH_IMAGES}/{video}")
+        time.sleep(1)

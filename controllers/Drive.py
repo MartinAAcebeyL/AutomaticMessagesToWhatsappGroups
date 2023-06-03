@@ -1,4 +1,6 @@
 import os
+import random
+import time
 from googleapiclient.discovery import build
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
@@ -62,4 +64,45 @@ class Drive:
         done = False
         while done is False:
             status, done = downloader.next_chunk()
-        print(f"Download {file_name} Complete")
+
+    def get_multimedia_folder(self, multimedia: dict) -> dict:
+        pesos = [80, 20]
+        print("SELECCIONANDO MULTIMEDIA")
+        carpet = random.choices(list(multimedia.keys()), weights=pesos)[0]
+        return multimedia.get(carpet)
+
+    def get_multimedia(self, carpeta: dict, cantidad: int = 3) -> list:
+        items = self.get_items(id_carpet=carpeta.get('id'))
+        items = random.sample(items, cantidad)
+        return items
+
+    def separar_carpetas_txt(self, items: list) -> list:
+        folders, txts = {}, []
+        for item in items:
+            if '.' in item.get('name'):
+                txts.append(item)
+            else:
+                folders[item.get('name')] = item
+        return folders, txts
+
+    def multimadia_y_txts(self, items_principal_carpets: dict) -> list:
+        multimedia, txts = self.separar_carpetas_txt(items_principal_carpets)
+        # Seleccionar carpeta de multimedia y descargando multimedia
+        multimedia_folder = self.get_multimedia_folder(multimedia)
+        cantitad_items = 3 if multimedia_folder.get('name') == 'fotos' else 1
+        multimedia_items = self.get_multimedia(
+            multimedia_folder, cantitad_items)
+
+        multimedia = []
+        for item in multimedia_items:
+            self.download_file(item.get('id'), item.get('name'))
+            multimedia.append(item.get('name'))
+            time.sleep(0.5)
+        print(f"Download/s Complete")
+        
+
+        # Seleccionando un txt
+        txt = random.choice(txts)
+        txt_content = self.service.files().get_media(
+            fileId=txt.get('id')).execute().decode('utf-8')
+        return multimedia, txt_content

@@ -10,19 +10,6 @@ def show_list(l: list) -> None:
     print()
 
 
-def get_multimedia_carpet(multimedia: dict) -> dict:
-    pesos = [80, 20]
-    print("SELECCIONANDO MULTIMEDIA")
-    carpet = random.choices(list(multimedia.keys()), weights=pesos)[0]
-    return multimedia.get(carpet)
-
-
-def get_multimedia(multimedia: dict):
-    multimedia_items = drive.get_items(id_carpet=multimedia.get('id'))
-    multimedia_items = random.sample(multimedia_items, 3)
-    return multimedia_items
-
-
 def default():
     items = drive.get_items(id_carpet=os.getenv('ID_CARPET'), folders=True)
 
@@ -39,29 +26,19 @@ def default():
 
 
 def choose_carpet():
-    items = drive.get_items(id_carpet=os.getenv('ID_CARPET'), folders=True)
-    print("Selecciona una carpeta")
-    show_list(items)
-    folder = input()
-    folder = items[int(folder)-1]
-    items_carpets = drive.get_items(id_carpet=folder.get('id'))
-    multimedia, txts = {}, []
-
-    for item in items_carpets:
-        if '.' in item.get('name'):
-            txts.append(item)
-        else:
-            multimedia[item.get('name')] = item
-    multimedia_carpet = get_multimedia_carpet(multimedia)
-    multimedia_items = get_multimedia(multimedia_carpet)
-    drive.download_file(multimedia_items[0].get(
-        'id'), multimedia_items[0].get('name'))
-    txt = random.choice(txts)
-    txt_content = drive.service.files().get_media(
-        fileId=txt.get('id')).execute().decode('utf-8')
+    principal_carpets = drive.get_items(
+        id_carpet=os.getenv('ID_CARPET'), folders=True)
+    print("SELECCIONA UNA CARPETA:")
+    show_list(principal_carpets)
+    carpet = input()
+    carpet = principal_carpets[int(carpet)-1]
+    items_principal_carpets = drive.get_items(id_carpet=carpet.get('id'))
+    multimedia, txt = drive.multimadia_y_txts(items_principal_carpets)
     whatsapp.search_contact('68638319')
-    whatsapp.send_message(txt_content)
-    whatsapp.send_image(multimedia_items[0].get('name'))
+    whatsapp.send_message(txt)
+    print(multimedia)
+    for m in multimedia:
+        whatsapp.send_image(m)
 
 
 whatsapp = Whatsapp()
