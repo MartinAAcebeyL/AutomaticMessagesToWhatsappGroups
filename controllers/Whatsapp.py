@@ -17,6 +17,7 @@ def find_attach_input(function):
         # buscamos el boton de enviar
         arrow_button = self.driver.find_element(By.XPATH, const.ARROW_BTN)
         arrow_button.click()
+        time.sleep(2)
     return wrapper
 
 
@@ -47,26 +48,22 @@ class Whatsapp:
         search_box.click()
         search_box.send_keys(contact)
         search_box.send_keys(Keys.ENTER)
-        time.sleep(2)
+        time.sleep(1)
 
     def send_message(self, message: str) -> None:
         print("ENVIANDO MENSAJE...")
         # bucamos el input de mensaje y mandamos el mensaje
         message_box = self.driver.find_element(By.XPATH, const.MESSAGE_INPUT)
         for i in message.split("\n"):
-            # if i == '':
-            #     message_box.send_keys(Keys.SHIFT, Keys.ENTER)
             message_box.send_keys(i)
             message_box.send_keys(Keys.SHIFT, Keys.ENTER)
-            time.sleep(0.5)
 
         message_box.send_keys(Keys.ENTER)
         time.sleep(1)
 
     @find_attach_input
-    def send_image(self, image: str) -> None:
-        print("ENVIANDO IMAGEN...")
-        # buscamos el input de imagen
+    def send_multimedia(self, image: str) -> None:
+        print("ENVIANDO MULTIMEDIA...")
         ruta_imagen = os.path.abspath("temp/"+image)
         boton_imagen = self.driver.find_element(By.XPATH, const.IMAGE_INPUT)
         boton_imagen.send_keys(ruta_imagen)

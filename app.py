@@ -2,7 +2,7 @@ import os
 import random
 from controllers.Whatsapp import Whatsapp
 from controllers.Drive import Drive
-
+from utils.utils import remove_files
 
 def show_list(l: list) -> None:
     for i, j in zip(l, range(1, len(l)+1)):
@@ -36,9 +36,9 @@ def choose_carpet():
     multimedia, txt = drive.multimadia_y_txts(items_principal_carpets)
     whatsapp.search_contact('68638319')
     whatsapp.send_message(txt)
-    print(multimedia)
-    for m in multimedia:
-        whatsapp.send_image(m)
+    for i in multimedia:
+        whatsapp.send_multimedia(i)
+    remove_files()
 
 
 whatsapp = Whatsapp()

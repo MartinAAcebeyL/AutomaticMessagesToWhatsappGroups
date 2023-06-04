@@ -98,7 +98,7 @@ class Drive:
             self.download_file(item.get('id'), item.get('name'))
             multimedia.append(item.get('name'))
             time.sleep(0.5)
-        print(f"Download/s Complete")
+        print("DESCARGA COMPLETA")
         
 
         # Seleccionando un txt
