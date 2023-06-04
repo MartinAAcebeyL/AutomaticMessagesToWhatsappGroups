@@ -42,7 +42,6 @@ class Whatsapp:
         self.driver.quit()
 
     def search_contact(self, contact: str) -> None:
-        print(f"BUSCANDO CONTACTO: {contact}")
         # buscamos el contacto
         search_box = self.driver.find_element(By.XPATH, const.SEARCH_INPUT)
         search_box.click()

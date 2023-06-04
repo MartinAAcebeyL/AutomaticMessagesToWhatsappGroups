@@ -89,7 +89,7 @@ class Drive:
         multimedia, txts = self.separar_carpetas_txt(items_principal_carpets)
         # Seleccionar carpeta de multimedia y descargando multimedia
         multimedia_folder = self.get_multimedia_folder(multimedia)
-        cantitad_items = 3 if multimedia_folder.get('name') == 'fotos' else 1
+        cantitad_items = 2 if multimedia_folder.get('name') == 'fotos' else 1
         multimedia_items = self.get_multimedia(
             multimedia_folder, cantitad_items)
 

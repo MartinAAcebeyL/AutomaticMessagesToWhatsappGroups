@@ -2,12 +2,7 @@ import os
 import random
 from controllers.Whatsapp import Whatsapp
 from controllers.Drive import Drive
-from utils.utils import remove_files
-
-def show_list(l: list) -> None:
-    for i, j in zip(l, range(1, len(l)+1)):
-        print(f'{j} {i.get("name")}')
-    print()
+from utils.utils import remove_files, show_list, read_txt
 
 
 def default():
@@ -30,15 +25,17 @@ def choose_carpet():
         id_carpet=os.getenv('ID_CARPET'), folders=True)
     print("SELECCIONA UNA CARPETA:")
     show_list(principal_carpets)
-    carpet = input()
-    carpet = principal_carpets[int(carpet)-1]
-    items_principal_carpets = drive.get_items(id_carpet=carpet.get('id'))
-    multimedia, txt = drive.multimadia_y_txts(items_principal_carpets)
-    whatsapp.search_contact('68638319')
-    whatsapp.send_message(txt)
-    for i in multimedia:
-        whatsapp.send_multimedia(i)
-    remove_files()
+    folder = input()
+    folder = principal_carpets[int(folder)-1]
+    for contacto in read_txt():
+        print(f"\nBUSCANDO CONTACTO: {contacto}")
+        items_folder = drive.get_items(id_carpet=folder.get('id'))
+        multimedia, txt = drive.multimadia_y_txts(items_folder)
+        whatsapp.search_contact(contacto)
+        whatsapp.send_message(txt)
+        for i in multimedia:
+            whatsapp.send_multimedia(i)
+        remove_files()
 
 
 whatsapp = Whatsapp()
