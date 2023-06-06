@@ -4,21 +4,10 @@ __pycache__/
 build/
 downloads/
 
-# Unit test / coverage reports
-htmlcov/
-.coverage
-.coverage.*
-cover/
-
-
-# Django stuff:
-*.log
-
 # Environments
 env/
 
 selenium/
-*.json
-contacts.txt
 temp/*
+*.json
 .env
